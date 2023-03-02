@@ -29,7 +29,7 @@ MAP_LOCATION: str = torch.device('cuda:{}'.format(DEVICE[0]) if ACCELERATOR == '
 ''' Gradio Input/Output Configurations '''
 inputs: Union[str, gr.Audio] = gr.Audio(source='upload', type='filepath')
 # inputs: Union[str, gr.inputs.Audio] = gr.inputs.Audio(source='upload', type='filepath')
-outputs: gr.Plot = gr.Plot()
+outputs: List[Union[str, gr.Plot]] = ['text', gr.Plot()]
 
 ''' Helper functions '''
 def initialize_emo_model(cfg: BaseConfig) -> EmotionEspnetModel:
@@ -64,7 +64,7 @@ def predict(audio_path: str) -> str:
 
     with torch.no_grad():
 
-        emotion, v, a, d = emo_model.forward(audio_path)
+        emotion_from_espnet, v, a, d = emo_model.forward(audio_path)
         emotion_label = get_emotion_from_vad(v, a, d, vad_model)
 
-    return draw_plutchik(emotion_label)
+    return emotion_label, draw_plutchik(emotion_label)
