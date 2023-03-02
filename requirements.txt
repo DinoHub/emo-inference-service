@@ -1,0 +1,3 @@
+gradio
+Shapely==1.7.1
+descartes==1.1.0

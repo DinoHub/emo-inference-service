@@ -1,0 +1,37 @@
+PLUTCHIK_PLOT_VALUES = {
+    'joy'           : [0.334, 0.333, 0.333],
+    'trust'         : [0.334, 0.333, 0.333],
+    'fear'          : [0.334, 0.333, 0.333],
+    'surprise'      : [0.334, 0.333, 0.333],
+    'sadness'       : [0.334, 0.333, 0.333],
+    'disgust'       : [0.334, 0.333, 0.333],
+    'anger'         : [0.334, 0.333, 0.333],
+    'anticipation'  : [0.334, 0.333, 0.333]
+    }
+
+PLUTCHIK_PLOT_MAPPING = {
+    'serenity'      : ['joy', 0],
+    'joy'           : ['joy', 1], 
+    'ecstasy'       : ['joy', 2],
+    'acceptance'    : ['trust', 0],
+    'trust'         : ['trust', 1], 
+    'admiration'    : ['trust', 2],
+    'apprehension'  : ['fear', 0],
+    'fear'          : ['fear', 1],
+    'terror'        : ['fear', 2],
+    'distraction'   : ['surprise', 0],
+    'surprise'      : ['surprise', 1],
+    'amazement'     : ['surprise', 2],
+    'pensiveness'   : ['sadness', 0],
+    'sadness'       : ['sadness', 1],
+    'grief'         : ['sadness', 2],
+    'boredom'       : ['disgust', 0],
+    'disgust'       : ['disgust', 1],
+    'loathing'      : ['disgust', 2],
+    'annoyance'     : ['anger', 0],
+    'anger'         : ['anger', 1],
+    'rage'          : ['anger', 2],
+    'interest'      : ['anticipation', 0],
+    'anticipation'  : ['anticipation', 1],
+    'vigilance'     : ['anticipation', 2],
+}
