@@ -72,8 +72,7 @@ def get_emotion_from_vad(v: float, a: float, d: float, model_vad2xy: Any, plutch
         emotions.append(row['emotion'])
     dists, emotions = np.array(dists), np.array(emotions)
 
-    min_dist = np.min(dists)
     # if min_dist > 10: emotion='neutral1'
-    emotion=emotions[np.argmin(dist)]
+    emotion=emotions[np.argmin(dists)]
 
     return emotion 
