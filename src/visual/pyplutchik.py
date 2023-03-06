@@ -406,7 +406,7 @@ def _polar_coordinates(ax, font, fontweight, fontsize, show_ticklabels, ticklabe
         for x in np.arange(0.2, 1.2, .2):
             a = round(x, 1)
             x, y = _rotate_point((0, a + offset), ticklabels_angle) #-.12
-            ax.annotate(str(a), xy = (x, y),  fontfamily = font, size = ticklabels_size, fontweight = fontweight, zorder = 8, rotation = ticklabels_angle)
+            ax.annotate(str(a), xy = (x, y),  fontfamily = font, size = ticklabels_size, fontweight = fontweight, zorder = 8, rotation = ticklabels_angle, color='white')
     return ax
 
 
@@ -429,7 +429,7 @@ def _neutral_central_circle(ax, r = .15):
         
     """
     c = sg.Point(0, 0).buffer(r)
-    ax.add_patch(descartes.PolygonPatch(c, fc='white', ec=(.5, .5, .5, .3), alpha=1, zorder = 15))
+    ax.add_patch(descartes.PolygonPatch(c, fc='#1f2937', ec=(.5, .5, .5, .3), alpha=1, zorder = 15))
     
     return ax
     
@@ -490,9 +490,9 @@ def _outer_border(ax, emotion_score, color, angle, highlight, offset = .15, heig
 
 
     ax.add_patch(descartes.PolygonPatch(petal, fc=(0, 0, 0, 0), ec = ecol, lw= 1))
-    
-    
-    
+
+      
+      
 def _petal_shape_emotion(ax, emotion_score, color, angle, font, fontweight, fontsize, highlight, will_circle, offset = .15, height_width_ratio = 1, normalize = False, highlight_intensity=-1):
     """
     Draw a petal.
@@ -564,7 +564,11 @@ def _petal_shape_emotion(ax, emotion_score, color, angle, font, fontweight, font
     petal = right.intersection(left)
     
     # Alpha for highlighting
+    fc0 = '#1f2937'
     if highlight == 'regular':
+        if highlight_intensity >= 0 and highlight_intensity == 0:
+            fc0 = color
+
         if will_circle:
             alpha = .3
         else:
@@ -572,15 +576,9 @@ def _petal_shape_emotion(ax, emotion_score, color, angle, font, fontweight, font
             
     elif will_circle:
         alpha = .0
-        
     else:
         alpha = .0
         
-    fc0 = 'white'
-    if highlight == 'regular':
-        if highlight_intensity >= 0 and highlight_intensity == 0:
-            fc0 = color
-    
     ax.add_patch(descartes.PolygonPatch(petal, fc=fc0, lw = 0, alpha=1, zorder = 0))
     ax.add_patch(descartes.PolygonPatch(petal, fc=color, lw= 0, alpha=alpha, zorder = 10))
     
@@ -682,8 +680,8 @@ def _petal_shape_dyad(ax, emotion_score, colorA, colorB, angle, font, fontweight
     petalB = petal.intersection(square_right)
     
         
-    # white petal underneath
-    ax.add_patch(descartes.PolygonPatch(petal, fc='white', lw = 0, alpha=1, zorder = 0))
+    # #1f2937 petal underneath
+    ax.add_patch(descartes.PolygonPatch(petal, fc='#1f2937', lw = 0, alpha=1, zorder = 0))
     
     # Draw each half-petal in alpha 0.7
     alpha = .7
@@ -742,8 +740,8 @@ def _petal_spine_emotion(ax, emotion, emotion_score, color, angle, font, fontwei
     p1 = (0, 0)
     p2 = _rotate_point((0, 1 + step + offset), angle) # draw line until 0, 1 + step + offset
     p3 = _rotate_point((-step, 1 + step + offset), angle) # draw tick
-    ax.plot([p1[0], p2[0]], [p1[1], p2[1]], zorder = 5, color = 'black', alpha = .3, linewidth = .75)
-    ax.plot([p2[0], p3[0]], [p2[1], p3[1]], zorder = 5, color = 'black', alpha = .3, linewidth = .75)
+    ax.plot([p1[0], p2[0]], [p1[1], p2[1]], zorder = 5, color = 'white', alpha = .3, linewidth = .75)
+    ax.plot([p2[0], p3[0]], [p2[1], p3[1]], zorder = 5, color = 'white', alpha = .3, linewidth = .75)
     
     # Managing highlighting and transparency
     if highlight == 'opaque':
@@ -760,8 +758,9 @@ def _petal_spine_emotion(ax, emotion, emotion_score, color, angle, font, fontwei
         iterable = False
        
     label_name = None
-    if highlight == 'regular' and highlight_intensity >= 0:
-        label_name = sub_emotion
+    if highlight == 'regular':
+        if highlight_intensity >= 0:
+            label_name = sub_emotion
         
     if iterable:
         # Label
@@ -790,7 +789,7 @@ def _petal_spine_emotion(ax, emotion, emotion_score, color, angle, font, fontwei
         angle2 = angle + 180 if -110 > angle > -260 else angle
         p4 = _rotate_point((0, 1.23 + step + offset), angle)
         ax.annotate(emotion, xy = p4, rotation = angle2, ha='center', va = 'center',
-                    fontfamily = font, size = fontsize, fontweight = fontweight)
+                    fontfamily = font, size = fontsize, fontweight = fontweight, color='white')
         
         # Score
         if label_name:
@@ -848,8 +847,8 @@ def _petal_spine_dyad(ax, dyad, dyad_score, color, emotion_names, angle, font, f
     p1 = (0, 0) # 0, 0 + offset
     p2 = _rotate_point((0, 1 + step + offset), angle) # draw line until 0, 1 + step + offset
     p3 = _rotate_point((-step, 1 + step + offset), angle) # draw tick
-    ax.plot([p1[0], p2[0]], [p1[1], p2[1]], zorder = 5, color = 'black', alpha = .3, linewidth = .75)
-    ax.plot([p2[0], p3[0]], [p2[1], p3[1]], zorder = 5, color = 'black', alpha = .3, linewidth = .75)
+    ax.plot([p1[0], p2[0]], [p1[1], p2[1]], zorder = 5, color = 'white', alpha = .3, linewidth = .75)
+    ax.plot([p2[0], p3[0]], [p2[1], p3[1]], zorder = 5, color = 'white', alpha = .3, linewidth = .75)
     
     # Managing highlighting and opacity
     if highlight == 'opaque':
@@ -943,28 +942,28 @@ def _petal_circle(ax, petal, radius, color, inner = False, highlight = 'none', o
         area = petal.intersection(c)
         
         # Managing alpha and color
-        alpha0 = 1 if highlight == 'regular' else .2
+        fc1, fc2 = '#1f2937', '#1f2937'
+        if highlight == 'regular':
+          alpha0, alpha1, alpha2 = .8, .8, .8
+
+          if highlight_intensity >= 0:
+            if highlight_intensity == 1:
+              fc1 = color
+            elif highlight_intensity == 2:
+              fc2 = color
+        else:
+          alpha0, alpha1, alpha2 = .2, .0, .0
+        
         ecol = (colors.to_rgba(color)[0], colors.to_rgba(color)[1], colors.to_rgba(color)[2], alpha0)
         
-        alpha1 = 1 if highlight == 'regular' else .0
-        if highlight_intensity >= 0 and highlight_intensity == 1:
-            fc1 = color
-        else:
-            fc1 = (1, 1, 1, 1)
-        
         # Drawing separately the shape and a thicker border
-        ax.add_patch(descartes.PolygonPatch(area, fc=fc1, ec = 'black', lw = 0, alpha=alpha1)) # Second
+        ax.add_patch(descartes.PolygonPatch(area, fc=fc1, ec='w', lw = 0, alpha=alpha1)) # Second
         ax.add_patch(descartes.PolygonPatch(area, fc=(0, 0, 0, 0), ec = ecol, lw = 1.3))
         
         # The innermost circle gets to be brighter because of the repeated overlap
         # Its alpha is diminished to avoid too much bright colors
         if inner:
-            alpha2 = 1 if highlight == 'regular' else .0
-            if highlight_intensity >= 0 and highlight_intensity == 2:
-                fc2 = color
-            else:
-                fc2 = (1, 1, 1, 1)
-            ax.add_patch(descartes.PolygonPatch(area, fc=fc2, ec = 'w', lw = 0, alpha=alpha2)) # Inner 
+            ax.add_patch(descartes.PolygonPatch(area, fc=fc2, ec='w', lw = 0, alpha=alpha1)) # Inner 
             ax.add_patch(descartes.PolygonPatch(area, fc=(0, 0, 0, 0), ec = ecol, lw = 1.5))
     
 
@@ -1283,7 +1282,8 @@ def plutchik(scores,
         
     # Create subplot if is not provided as parameter
     if not ax:
-        fig, ax = plt.subplots(figsize = (8, 8))
+        fig, ax = plt.subplots(figsize = (8, 8), facecolor='#1f2937')
+        # plt.figure(facecolor='#1f2937')
     
     # Managing fonts
     if not font:
@@ -1295,7 +1295,7 @@ def plutchik(scores,
     if show_coordinates:
         _polar_coordinates(ax, font, fontweight, fontsize, show_ticklabels, ticklabels_angle, ticklabels_size)
             
-    # Draw inner white circle
+    # Draw inner #1f2937 circle
     _neutral_central_circle(ax)
         
     
@@ -1340,7 +1340,7 @@ def plutchik(scores,
         _, _, _, level = dyad_params(list(dyads.keys())[0]) # get the first dyad level (they all are the same)
         ll = level if level != 4 else 'opp.' # what to annotate
         xy = (-0.03, -0.03) if level != 4 else (-0.13, -0.03) # exact center of '1' or 'opp' is slightly different
-        ax.annotate(ll, xy = xy, fontsize = fontsize, fontfamily = font, fontweight = 'bold', zorder = 30)   
+        ax.annotate(ll, xy = xy, fontsize = fontsize, fontfamily = font, fontweight = 'bold', zorder = 30, color='#1f2937')   
         
         # Ghost dotted track that connects colored arcs
         c = plt.Circle((0, 0), 1.60, color = 'grey', alpha = .3, fill = False, zorder = -20, linestyle = 'dotted' )
@@ -1363,5 +1363,4 @@ def plutchik(scores,
     
     if title:
         ax.set_title(title, fontfamily = font, fontsize = title_size, fontweight = 'bold', pad = 20)
-        
     return fig
